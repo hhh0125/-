@@ -3,16 +3,16 @@
 #include<iostream>
 #include <arm64intr.h>
 
-// µ¥ÂÖ¼ÓÃÜ
+// å•è½®åŠ å¯†
 uint8x16_t vaeseq_u8(uint16x8_t data, uint8x16_t key);
 
-//µ¥ÂÖ½âÃÜ
+//å•è®ºè§£å¯†
 uint8x16_t vaesdq_u8(uint8x16_t data, uint8x16_t key);
 
-//ÁĞ»ìºÏ
+//åˆ—æ··åˆ
 uint8x16_t vaesmcq_u8(uint8x16_t  data);
 
-//ÄæÁĞ»ìºÏ
+//é€†åˆ—æ··åˆ
 uint8x16_t vaesimcq_u8(uint8x16_t data);
 
 void aes_arm(uint8_t subkeys[], uint8_t input[], uint8_t output[])
@@ -67,7 +67,7 @@ int main()
 
 	aes_arm((uint8_t*)subkeys, input, result + 3);
 
-	printf("input£º");
+	printf("inputï¼š");
 	for (unsigned int i = 0; i < 16; ++i)
 		printf("%02X ", input[i]);
 	printf("\n");
