@@ -18,8 +18,8 @@ def gen_msg(len):
         msg.append("".join(block))
     return msg
 
+# 生成哈希树
 def gen_mrk(msg):
-
     length = len(msg)
     # merkle tree 深度
     depth=math.ceil(math.log2(length)+1)
@@ -38,6 +38,7 @@ def gen_mrk(msg):
         mrk.append(temp)
     return mrk
 
+# 元素检验
 def proof(ele,mrk,root):
     ele_hash=sha(ele)
     if ele_hash in mrk[0]:
