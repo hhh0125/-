@@ -5,4 +5,16 @@
 ![image](https://github.com/hhh0125/-/assets/139990267/89af1f78-ddbe-42d0-9466-486a1fb51e97)
 
 # ARM指令对应的C语言函数如下：
-![image](https://github.com/hhh0125/-/assets/139990267/e4039bbe-22ae-4a5f-8275-94da71c194b5)
+```c++
+// 单轮加密
+uint8x16_t vaeseq_u8(uint16x8_t data, uint8x16_t key);
+
+//单论解密
+uint8x16_t vaesdq_u8(uint8x16_t data, uint8x16_t key);
+
+//列混合
+uint8x16_t vaesmcq_u8(uint8x16_t  data);
+
+//逆列混合
+uint8x16_t vaesimcq_u8(uint8x16_t data);
+```
