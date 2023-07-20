@@ -1,11 +1,10 @@
 #pragma once
-#pragma once
 
 #include <iostream>
 #include<string>
 using namespace std;
 
-// ½«×Ö·û´®×ª»¯Îª4x4Êı×é
+// å°†å­—ç¬¦ä¸²è½¬åŒ–ä¸º4x4æ•°ç»„
 void StrToArray(unsigned char* plain, unsigned char parray[4][4])
 {
     int k = 0;
@@ -23,7 +22,7 @@ void StrToArray(unsigned char* plain, unsigned char parray[4][4])
 
 }
 
-//½«4x4Êı×é×ª»¯ÎªÊı×é
+//å°†4x4æ•°ç»„è½¬åŒ–ä¸ºæ•°ç»„
 string ArrayToStr(unsigned char parray[4][4])
 {
     string plain;
@@ -41,7 +40,7 @@ string ArrayToStr(unsigned char parray[4][4])
 }
 
 
-// ´òÓ¡Êı×é
+// æ‰“å°æ•°ç»„
 void ShowArray(unsigned char array[4][4])
 {
     for (int i = 0; i < 4; i++)
@@ -57,7 +56,7 @@ void ShowArray(unsigned char array[4][4])
     printf("\n");
 }
 
-//SºĞ
+//Sç›’
 const unsigned char S[16][16] =
 {                      //4                     //8              //b         //d
     0x63, 0x7C, 0x77, 0x7B, 0xF2, 0x6B, 0x6F, 0xC5, 0x30, 0x01, 0x67, 0x2B, 0xFE, 0xD7, 0xAB, 0x76,  //1
@@ -78,25 +77,25 @@ const unsigned char S[16][16] =
     0x8C, 0xA1, 0x89, 0x0D, 0xBF, 0xE6, 0x42, 0x68, 0x41, 0x99, 0x2D, 0x0F, 0xB0, 0x54, 0xBB, 0x16
 };
 
-//×Ö½Ú´ú»»
+//å­—èŠ‚ä»£æ¢
 void SubBytes(unsigned char parray[4][4])
 {
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
         {
-            // ĞĞ×ø±ê
+            // è¡Œåæ ‡
             int x = parray[i][j] / 16;
-            // ÁĞ×ø±ê
+            // åˆ—åæ ‡
             int y = parray[i][j] % 16;
-            // SºĞ´ú»»
+            // Sç›’ä»£æ¢
             parray[i][j] = S[x][y];
         }
     }
 
 }
 
-// ĞĞÒÆÎ»
+// è¡Œç§»ä½
 void ShiftRows(unsigned char parray[4][4])
 {
     unsigned char temp[4][4];
@@ -105,11 +104,11 @@ void ShiftRows(unsigned char parray[4][4])
             temp[i][j] = parray[i][j];
 
 
-    // ¿ªÊ¼ÒÆÎ»
+    // å¼€å§‹ç§»ä½
     for (int i = 0; i < 4; i++)
     {
-        // µÚÒ»ĞĞ²»±ä
-        // µÚ¶şĞĞÏò×óÒÆÒ»¸ö×Ö½Ú
+        // ç¬¬ä¸€è¡Œä¸å˜
+        // ç¬¬äºŒè¡Œå‘å·¦ç§»ä¸€ä¸ªå­—èŠ‚
         for (int j = 0; j < 4; j++)
             parray[i][j] = temp[i][(j + i) % 4];
 
@@ -118,7 +117,7 @@ void ShiftRows(unsigned char parray[4][4])
 }
 
 
-// ÁĞ»ìºÏÒªÓÃµÄ¾ØÕó
+// åˆ—æ··åˆè¦ç”¨çš„çŸ©é˜µ
 const int c[4][4] =
 {
     0x02,0x03,0x01,0x01,
@@ -127,29 +126,29 @@ const int c[4][4] =
     3,1,1,2
 };
 
-// ¼ÆËã{02}*{x}
+// è®¡ç®—{02}*{x}
 unsigned char GFmu2(unsigned char x)
 {
 
-    // ×óÒÆÒ»Î»
+    // å·¦ç§»ä¸€ä½
     unsigned char x_left = x << 1;
 
-    // ÅĞ¶ÏxµÄ×î×ó±ßÄÇÎ»ÊÇ²»ÊÇÎª1
+    // åˆ¤æ–­xçš„æœ€å·¦è¾¹é‚£ä½æ˜¯ä¸æ˜¯ä¸º1
     unsigned char b7 = x & 0x80;
 
-    // Èç¹ûÎª1,×óÒÆºóµÄÖµÓë0001 1011 Òì»ò
+    // å¦‚æœä¸º1,å·¦ç§»åçš„å€¼ä¸0001 1011 å¼‚æˆ–
     if (b7 != 0)
         x_left = x_left ^ 0x1b;
     return x_left;
 }
 
-// ¼ÆËã{03}*{x}
+// è®¡ç®—{03}*{x}
 unsigned char GFmu3(unsigned char x)
 {
     return GFmu2(x) ^ x;
 }
 
-// ¼ÆËãµ¥ĞĞ
+// è®¡ç®—å•è¡Œ
 unsigned char GFmu(int n, unsigned char x)
 {
     unsigned char result = 0;
@@ -175,10 +174,10 @@ unsigned char GFmu(int n, unsigned char x)
 
 }
 
-// ÁĞ»ìºÏ
+// åˆ—æ··åˆ
 void MixColums(unsigned char parray[4][4])
 {
-    // ¸´ÖÆparray
+    // å¤åˆ¶parray
     unsigned char temp[4][4];
     for (int i = 0; i < 4; i++)
     {
@@ -186,7 +185,7 @@ void MixColums(unsigned char parray[4][4])
             temp[i][j] = parray[i][j];
     }
 
-    //¿ªÊ¼¼ÆËã
+    //å¼€å§‹è®¡ç®—
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -197,7 +196,7 @@ void MixColums(unsigned char parray[4][4])
 }
 
 
-// ½«Ò»¸ö4×Ö½ÚÊı·Ö¿ª³ÉÊı×é
+// å°†ä¸€ä¸ª4å­—èŠ‚æ•°åˆ†å¼€æˆæ•°ç»„
 void SplitNumToArray(int num, unsigned char numarray[4])
 {
     numarray[0] = num >> 24;
@@ -207,7 +206,7 @@ void SplitNumToArray(int num, unsigned char numarray[4])
 
 }
 
-// ½«Êı×éºÏ³ÉÒ»¸ö4×Ö½ÚÊı
+// å°†æ•°ç»„åˆæˆä¸€ä¸ª4å­—èŠ‚æ•°
 int CombineArrayToNum(unsigned char numarray[4])
 {
     int num = 0;
@@ -222,19 +221,19 @@ int CombineArrayToNum(unsigned char numarray[4])
     return num;
 }
 
-// ½«ÃÜÔ¿µÄÃ¿Ò»ÁĞºÏ³ÉÒ»¸ö4×Ö½ÚÊı
+// å°†å¯†é’¥çš„æ¯ä¸€åˆ—åˆæˆä¸€ä¸ª4å­—èŠ‚æ•°
 void KeyColumsCombine(unsigned char karray[4][4], int carray[44])
 {
     for (int i = 0; i < 4; i++)
     {
-        // temp¡¾4¡¿´æ·Å¾ØÕóµÄÃ¿Ò»ÁĞ
+        // tempã€4ã€‘å­˜æ”¾çŸ©é˜µçš„æ¯ä¸€åˆ—
         unsigned char temp[4];
         temp[0] = karray[0][i];
         temp[1] = karray[1][i];
         temp[2] = karray[2][i];
         temp[3] = karray[3][i];
 
-        // ½«¾ØÕóµÄÃ¿Ò»ÁĞºÏ³ÉÒ»¸öÊı£¬·ÅÈëÀ©Õ¹ÃÜÔ¿Êı×é
+        // å°†çŸ©é˜µçš„æ¯ä¸€åˆ—åˆæˆä¸€ä¸ªæ•°ï¼Œæ”¾å…¥æ‰©å±•å¯†é’¥æ•°ç»„
         carray[i] = CombineArrayToNum(temp);
 
     }
@@ -243,7 +242,7 @@ void KeyColumsCombine(unsigned char karray[4][4], int carray[44])
 
 
 
-// ³£Á¿ÂÖÖµ±í
+// å¸¸é‡è½®å€¼è¡¨
 static const int Rcon[10] =
 { 0x01000000, 0x02000000,
     0x04000000, 0x08000000,
@@ -253,67 +252,67 @@ static const int Rcon[10] =
 
 
 
-// gº¯Êı
+// gå‡½æ•°
 int g(int carray, int round)
 {
     unsigned char numarray[4];
 
-    // ½«4×Ö½ÚÊı·Ö¿ª
+    // å°†4å­—èŠ‚æ•°åˆ†å¼€
     SplitNumToArray(carray, numarray);
 
-    // Ñ­»·×óÒÆÒ»Î»
+    // å¾ªç¯å·¦ç§»ä¸€ä½
     unsigned char temp = numarray[0];
     for (int j = 0; j < 3; j++)
         numarray[j] = numarray[(j + 1) % 4];
     numarray[3] = temp;
 
 
-    // ¹ısºĞ×ö×Ö½Ú´úÌæ
+    // è¿‡sç›’åšå­—èŠ‚ä»£æ›¿
     for (int j = 0; j < 4; j++)
     {
-        // ĞĞ×ø±ê
+        // è¡Œåæ ‡
         int x = numarray[j] / 16;
-        // ÁĞ×ø±ê
+        // åˆ—åæ ‡
         int y = numarray[j] % 16;
 
         numarray[j] = S[x][y];
 
     }
     /*
-    cout << "\n" << "×Ö½Ú´ú»»ºó£º";
+    cout << "\n" << "å­—èŠ‚ä»£æ¢åï¼š";
     for (int j = 0; j < 4; j++)
     {
         printf("%02x%s", numarray[j], "\t");
     }
     */
 
-    // ½«ºÏ³ÉÒ»¸ö4×Ö½ÚÊı
+    // å°†åˆæˆä¸€ä¸ª4å­—èŠ‚æ•°
     int num = 0;
     num = CombineArrayToNum(numarray);
 
-    // ÓëRconÒì»ò
+    // ä¸Rconå¼‚æˆ–
     num = num ^ Rcon[round];
 
     return num;
 }
 
-// À©Õ¹ÃÜÔ¿
+// æ‰©å±•å¯†é’¥
 int carray[44];
 
-// À©Õ¹ÃÜÔ¿ karrayÎªÖ÷ÃÜÔ¿
+// æ‰©å±•å¯†é’¥ karrayä¸ºä¸»å¯†é’¥
 void KeyExtend(unsigned char karray[4][4])
 {
-    // ½«Ö÷ÃÜÔ¿·ÅÈëÀ©Õ¹Êı×é
+    // å°†ä¸»å¯†é’¥æ”¾å…¥æ‰©å±•æ•°ç»„
     KeyColumsCombine(karray, carray);
 
     for (int i = 4, j = 0; i < 44; i++)
     {
-        // 4µÄÕûÊı±¶Òª¾­¹ıgº¯Êı
+        // 4çš„æ•´æ•°å€è¦ç»è¿‡gå‡½æ•°
         if (i % 4 == 0)
         {
             carray[i] = carray[i - 4] ^ g(carray[i - 1], j);
 
-            j++; // ÏÂÒ»ÂÖ
+            j++; // ä¸‹ä¸€è½®
         }
         else
             carray[i] = carray[i - 1] ^ carray[i - 4];
@@ -321,20 +320,20 @@ void KeyExtend(unsigned char karray[4][4])
     }
 }
 
-// Éú³ÉÂÖÃÜÔ¿,²¢¼ÓÃÜ
+// ç”Ÿæˆè½®å¯†é’¥,å¹¶åŠ å¯†
 void AddKeyRound(unsigned char parray[4][4], int round)
 {
-    //cout <<"\n"<< round << "ÂÖÃÜÔ¿:";
+    //cout <<"\n"<< round << "è½®å¯†é’¥:";
 
-    // ´æ·ÅÁĞµÄ×ÓÃÜÔ¿
+    // å­˜æ”¾åˆ—çš„å­å¯†é’¥
     unsigned char rarray[4];
 
     for (int i = 0; i < 4; i++)
     {
-        // ´Ócarray[44]ÖĞÈ¡³ö£¬·ÅÈërarray[4]
+        // ä»carray[44]ä¸­å–å‡ºï¼Œæ”¾å…¥rarray[4]
         SplitNumToArray(carray[round * 4 + i], rarray);
 
-        // Ò»ÁĞÒ»ÁĞ¼ÓÃÜ
+        // ä¸€åˆ—ä¸€åˆ—åŠ å¯†
         for (int j = 0; j < 4; j++)
         {
             //printf("%02x%s",rarray[j],"\t"); 
@@ -348,7 +347,7 @@ void AddKeyRound(unsigned char parray[4][4], int round)
 }
 
 
-//ÄæSºĞ
+//é€†Sç›’
 const unsigned char ReS[16][16] =
 {
     0x52, 0x09, 0x6A, 0xD5, 0x30, 0x36, 0xA5, 0x38, 0xBF, 0x40, 0xA3, 0x9E, 0x81, 0xF3, 0xD7, 0xFB,
@@ -369,7 +368,7 @@ const unsigned char ReS[16][16] =
     0x17, 0x2B, 0x04, 0x7E, 0xBA, 0x77, 0xD6, 0x26, 0xE1, 0x69, 0x14, 0x63, 0x55, 0x21, 0x0C, 0x7D
 };
 
-// ÄæĞĞ±ä»»
+// é€†è¡Œå˜æ¢
 void InvSubBytes(unsigned char parray[4][4])
 {
 
@@ -377,11 +376,11 @@ void InvSubBytes(unsigned char parray[4][4])
     {
         for (int j = 0; j < 4; j++)
         {
-            // ĞĞ×ø±ê
+            // è¡Œåæ ‡
             int x = parray[i][j] / 16;
-            // ÁĞ×ø±ê
+            // åˆ—åæ ‡
             int y = parray[i][j] % 16;
-            // SºĞ´ú»»
+            // Sç›’ä»£æ¢
             parray[i][j] = ReS[x][y];
         }
     }
@@ -396,11 +395,11 @@ void InvShiftRows(unsigned char parray[4][4])
         for (int j = 0; j < 4; j++)
             temp[i][j] = parray[i][j];
 
-    // ¿ªÊ¼ÒÆÎ»
+    // å¼€å§‹ç§»ä½
 
-        // µÚÒ»ĞĞ²»±ä
+        // ç¬¬ä¸€è¡Œä¸å˜
 
-        // ÏòÓÒÒÆ×Ö½Ú
+        // å‘å³ç§»å­—èŠ‚
     for (int j = 0; j < 4; j++)
     {
         parray[1][j] = temp[1][(j + 3) % 4];
@@ -420,7 +419,7 @@ const int Rec[4][4] =
 
 void InvMixColumns(unsigned char parray[4][4])
 {
-    // ¸´ÖÆparray
+    // å¤åˆ¶parray
     unsigned char temp[4][4];
     for (int i = 0; i < 4; i++)
     {
@@ -428,7 +427,7 @@ void InvMixColumns(unsigned char parray[4][4])
             temp[i][j] = parray[i][j];
     }
 
-    //¿ªÊ¼¼ÆËã
+    //å¼€å§‹è®¡ç®—
     for (int i = 0; i < 4; i++)
     {
         for (int j = 0; j < 4; j++)
@@ -441,65 +440,65 @@ string AES_enc_128(unsigned char* input, unsigned char* key)
 {
 
 
-    // Ã÷ÎÄ
+    // æ˜æ–‡
     //unsigned char input[16] = "202100460145";
 
-     //Ö÷ÃÜÔ¿
+     //ä¸»å¯†é’¥
     //unsigned char key[16] = "202100460145";
 
-    // ÃÜÔ¿Êı×éºÍÃ÷ÎÄÊı×é
+    // å¯†é’¥æ•°ç»„å’Œæ˜æ–‡æ•°ç»„
     unsigned char karray[4][4];
     unsigned char parray[4][4];
 
-    // ½«ÃÜÔ¿×ª»¯ÎªÊı×é
+    // å°†å¯†é’¥è½¬åŒ–ä¸ºæ•°ç»„
     StrToArray(key, karray);
-    //cout << "ÃÜÔ¿Êı×é£º" << "\n";
+    //cout << "å¯†é’¥æ•°ç»„ï¼š" << "\n";
     //ShowArray(karray);
 
-    //½«Ã÷ÎÄ×ª»¯ÎªÊı×é
+    //å°†æ˜æ–‡è½¬åŒ–ä¸ºæ•°ç»„
     StrToArray(input, parray);
-    //cout << "Ã÷ÎÄÊı×é£º" << "\n";
+    //cout << "æ˜æ–‡æ•°ç»„ï¼š" << "\n";
      //ShowArray(parray);
 
-     // À©Õ¹ÃÜÔ¿
+     // æ‰©å±•å¯†é’¥
     KeyExtend(karray);
 
-    // µÚÒ»ÂÖ¼ÓÃÜ
+    // ç¬¬ä¸€è½®åŠ å¯†
     AddKeyRound(parray, 0);
-    //cout << "µÚÒ»ÂÖ¼ÓÃÜºó£º"<<"\n";
+    //cout << "ç¬¬ä¸€è½®åŠ å¯†åï¼š"<<"\n";
     //ShowArray(parray);
 
 
-    // Ç°¾ÅÂÖ
+    // å‰ä¹è½®
     for (int i = 1; i < 11; i++)
     {
-        //  ×Ö½Ú´ú»»
+        //  å­—èŠ‚ä»£æ¢
         SubBytes(parray);
-        //cout << "×Ö½Ú´ú»»ºó£º"<<"\n";
+        //cout << "å­—èŠ‚ä»£æ¢åï¼š"<<"\n";
          //ShowArray(parray);
 
-         // ĞĞÒÆÎ»
+         // è¡Œç§»ä½
         ShiftRows(parray);
-        //cout << "ĞĞÒÆÎ»ºó£º" << "\n";
+        //cout << "è¡Œç§»ä½åï¼š" << "\n";
         //ShowArray(parray);
 
-        // ÁĞ»ìºÏ
+        // åˆ—æ··åˆ
         if (i < 10)
         {
             MixColums(parray);
-            //cout << "ÁĞ»ìºÏºó£º" << "\n";
+            //cout << "åˆ—æ··åˆåï¼š" << "\n";
            // ShowArray(parray);
         }
 
-        // ¼ÓÃÜ
+        // åŠ å¯†
         AddKeyRound(parray, i);
-        //cout << "Ò»ÂÖ¼ÓÃÜºó£º" << "\n";
+        //cout << "ä¸€è½®åŠ å¯†åï¼š" << "\n";
        // ShowArray(parray);
     }
 
     // ShowArray(parray);
 
-     //×ª»¯Îª×Ö·û´®
+     //è½¬åŒ–ä¸ºå­—ç¬¦ä¸²
     string m;
     m = ArrayToStr(parray);
     return m;
@@ -508,54 +507,54 @@ string AES_enc_128(unsigned char* input, unsigned char* key)
 string AES_dec_128(unsigned char* input, unsigned char* key)
 {
 
-    // ÃÜÔ¿Êı×éºÍÃÜÎÄÊı×é
+    // å¯†é’¥æ•°ç»„å’Œå¯†æ–‡æ•°ç»„
     unsigned char karray[4][4];
     unsigned char parray[4][4];
 
-    // ½«ÃÜÔ¿×ª»¯ÎªÊı×é
+    // å°†å¯†é’¥è½¬åŒ–ä¸ºæ•°ç»„
     StrToArray(key, karray);
-    //cout << "ÃÜÔ¿Êı×é£º" << "\n";
+    //cout << "å¯†é’¥æ•°ç»„ï¼š" << "\n";
     //ShowArray(karray);
 
-    //½«ÃÜÎÄ×ª»¯ÎªÊı×é
+    //å°†å¯†æ–‡è½¬åŒ–ä¸ºæ•°ç»„
     StrToArray(input, parray);
-    //cout << "ÃÜÎÄÊı×é£º" << "\n";
+    //cout << "å¯†æ–‡æ•°ç»„ï¼š" << "\n";
     //ShowArray(parray);
 
-     // À©Õ¹ÃÜÔ¿
+     // æ‰©å±•å¯†é’¥
     KeyExtend(karray);
 
-    // µÚÒ»ÂÖ½âÃÜ
+    // ç¬¬ä¸€è½®è§£å¯†
     AddKeyRound(parray, 10);
-    //cout << "µÚÒ»ÂÖ½âÃÜºó£º"<<"\n";
+    //cout << "ç¬¬ä¸€è½®è§£å¯†åï¼š"<<"\n";
     //ShowArray(parray);
 
 
-    // Ç°¾ÅÂÖ
+    // å‰ä¹è½®
     for (int i = 9; i >= 0; i--)
     {
 
 
-        // ÄæĞĞÒÆÎ»
+        // é€†è¡Œç§»ä½
         InvShiftRows(parray);
-        //cout << "ÄæĞĞÒÆÎ»ºó£º" << "\n";
+        //cout << "é€†è¡Œç§»ä½åï¼š" << "\n";
         //ShowArray(parray);
 
-        // Äæ×Ö½Ú´ú»»
+        // é€†å­—èŠ‚ä»£æ¢
         InvSubBytes(parray);
-        //cout << "Äæ×Ö½Ú´ú»»ºó£º"<<"\n";
+        //cout << "é€†å­—èŠ‚ä»£æ¢åï¼š"<<"\n";
        //ShowArray(parray);
 
-       // ¼ÓÃÜ
+       // åŠ å¯†
         AddKeyRound(parray, i);
-        // cout << "Ò»ÂÖ½âÃÜºó£º" << "\n";
+        // cout << "ä¸€è½®è§£å¯†åï¼š" << "\n";
         // ShowArray(parray);
 
-         // ÄæÁĞ»ìºÏ
+         // é€†åˆ—æ··åˆ
         if (i > 0)
         {
             InvMixColumns(parray);
-            // cout << "ÄæÁĞ»ìºÏºó£º" << "\n";
+            // cout << "é€†åˆ—æ··åˆåï¼š" << "\n";
             // ShowArray(parray);
         }
 
@@ -563,7 +562,7 @@ string AES_dec_128(unsigned char* input, unsigned char* key)
 
     // ShowArray(parray);
 
-     //×ª»¯Îª×Ö·û´®
+     //è½¬åŒ–ä¸ºå­—ç¬¦ä¸²
     string m;
     m = ArrayToStr(parray);
     return m;
