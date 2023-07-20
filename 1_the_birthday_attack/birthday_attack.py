@@ -18,9 +18,7 @@ def birth_attack(l):
 
 if __name__=='__main__':
 
-
-
-    l=48
+    l=38
     print(f'寻找碰撞的空间大小：{l}bit')
     result=birth_attack(l)
     if result is not None:
